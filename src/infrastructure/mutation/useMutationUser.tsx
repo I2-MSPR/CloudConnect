@@ -1,5 +1,5 @@
 import { useMutation } from "@tanstack/react-query";
-import { fetchGroups } from "../fetch/fetchUser";
+import { fetchUser } from "../fetch/fetchUser";
 import type { UseFormSetError } from "react-hook-form";
 import type { User } from "../models/User";
 import { Connected } from "../Context/useContext";
@@ -8,15 +8,20 @@ import { useContext } from "react";
 type FormValues = {
   username: string;
   password: string;
+  mfa: string;
 };
 
 export function useCheckUsernameMutation(setError: UseFormSetError<any>) {
   const { setConnected } = useContext(Connected);
   return useMutation({
-    mutationFn: async ({ username, password }: FormValues): Promise<User> => {
+    mutationFn: async ({
+      username,
+      password,
+      mfa,
+    }: FormValues): Promise<User> => {
       const chiffreMotDePasse = btoa(password);
-      console.log("Chiffrement du mot de passe :", chiffreMotDePasse);
-      return await fetchGroups(username, chiffreMotDePasse);
+
+      return await fetchUser(username, chiffreMotDePasse, mfa);
     },
     onSuccess: () => {
       setConnected(true);

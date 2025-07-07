@@ -44,6 +44,16 @@ const ConnectLogin = () => {
             {errors.password.message}
           </p>
         )}
+        <input
+          type="password"
+          {...register("mfa", { required: "Entrer votre code mfa" })}
+          placeholder="Code Mfa"
+        />
+        {errors.mfa && (
+          <p style={{ color: "red", marginTop: "0.5rem" }}>
+            {errors.mfa.message}
+          </p>
+        )}
         <div
           style={{
             height: "auto",

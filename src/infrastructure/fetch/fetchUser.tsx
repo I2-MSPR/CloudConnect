@@ -1,12 +1,13 @@
 import axios from "axios";
 import type { User } from "../models/User";
 
-export const fetchGroups = async (
+export const fetchUser = async (
   username: string,
-  password: string
+  password: string,
+  mfa: string
 ): Promise<User> => {
   const response = await axios.get<User>(
-    `http://34.118.254.31:8080/function/hello?username=${username}&password=${password}`
+    `http://127.0.0.1:8080/function/authenticator.openfaas-fn?username=${username}&password=${password}&otp_code=${mfa}`
   );
   return response.data;
 };
