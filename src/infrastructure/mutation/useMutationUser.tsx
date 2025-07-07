@@ -2,7 +2,7 @@ import { useMutation } from "@tanstack/react-query";
 import { fetchUser } from "../fetch/fetchUser";
 import type { UseFormSetError } from "react-hook-form";
 import type { User } from "../models/User";
-import { Connected } from "../Context/useContext";
+import { Connected, CreateLoginContext } from "../Context/useContext";
 import { useContext } from "react";
 
 type FormValues = {
@@ -13,6 +13,7 @@ type FormValues = {
 
 export function useCheckUsernameMutation(setError: UseFormSetError<any>) {
   const { setConnected } = useContext(Connected);
+  const { setCreateLogin } = useContext(CreateLoginContext);
   return useMutation({
     mutationFn: async ({
       username,
@@ -33,6 +34,8 @@ export function useCheckUsernameMutation(setError: UseFormSetError<any>) {
           type: "manual",
           message: "Utilisateur non trouvé.",
         });
+      } else if (error.response?.status === 403) {
+        setCreateLogin(true);
       } else {
         setError("username", {
           type: "manual",
