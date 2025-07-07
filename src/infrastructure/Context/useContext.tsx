@@ -19,3 +19,13 @@ export const CreateLoginContext = createContext<CreateLoginContextType>({
   createLogin: false,
   setCreateLogin: () => {},
 });
+
+interface CreatePasswordContextType {
+  qrcode: string;
+  setQrcode: React.Dispatch<React.SetStateAction<string>>;
+}
+
+export const CreatePasswordContext = createContext<CreatePasswordContextType>({
+  qrcode: "",
+  setQrcode: () => {},
+});

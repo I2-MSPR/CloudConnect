@@ -9,11 +9,12 @@ import Generation2FA from "../Generation2FA/Generation2FA";
 
 const CreateLogin = () => {
   const [generationMdp, setGenerationMdp] = useState<boolean>(false);
-
+  const [user, setUser] = useState<string>("");
+  
   return !generationMdp ? (
-    <GenerationMdp setGenerationMdp={setGenerationMdp} />
+    <GenerationMdp setGenerationMdp={setGenerationMdp} setUser={setUser}/>
   ) : (
-    <Generation2FA setGenerationMdp={setGenerationMdp} />
+    <Generation2FA setGenerationMdp={setGenerationMdp} user={user} />
   );
 };
 export default CreateLogin;

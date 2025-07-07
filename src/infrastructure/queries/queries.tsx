@@ -1,12 +1,14 @@
-import axios from "axios";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { fetchGroups } from "../fetch/fetchUser";
 import type { User } from "../models/User";
 
-export const fetchGroups = async (
-  username: string,
-  password: string
-): Promise<User> => {
-  const response = await axios.get<User>(
-    `http://34.118.254.31:8080/function/hello?username=${username}&password=${password}`
-  );
-  return response.data;
+export const getUser = (username: string, password: string) =>
+  useQuery({
+    queryKey: ["user"],
+    queryFn: () => fetchGroups(username, password),
+  });
+
+export const useQueryUserCache = () => {
+  const queryClient = useQueryClient();
+  return queryClient.getQueryData<User>(["user"]);
 };

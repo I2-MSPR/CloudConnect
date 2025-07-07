@@ -1,25 +1,22 @@
 import { useMutation } from "@tanstack/react-query";
-import { fetchGroups } from "../fetch/fetchUser";
 import type { UseFormSetError } from "react-hook-form";
-import type { User } from "../models/User";
-import { Connected } from "../Context/useContext";
+import { CreatePasswordContext } from "../Context/useContext";
 import { useContext } from "react";
+import { fetchPassword } from "../fetch/fetchPassword";
+import type { Qrcode } from "../models/Qrcode";
 
 type FormValues = {
   username: string;
-  password: string;
 };
 
-export function useCheckUsernameMutation(setError: UseFormSetError<any>) {
-  const { setConnected } = useContext(Connected);
+export function useCheckPasswordMutation(setError: UseFormSetError<any>) {
+  const { setQrcode } = useContext(CreatePasswordContext);
   return useMutation({
-    mutationFn: async ({ username, password }: FormValues): Promise<User> => {
-      const chiffreMotDePasse = btoa(password);
-      console.log("Chiffrement du mot de passe :", chiffreMotDePasse);
-      return await fetchGroups(username, chiffreMotDePasse);
+    mutationFn: async ({ username }: FormValues): Promise<Qrcode> => {
+      return await fetchPassword(username);
     },
-    onSuccess: () => {
-      setConnected(true);
+    onSuccess: (data: Qrcode) => {
+      setQrcode(data.qrcode);
       console.log("Connexion réussie !");
     },
     onError: (error: any) => {

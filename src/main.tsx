@@ -5,6 +5,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import {
   Connected,
   CreateLoginContext,
+  CreatePasswordContext,
 } from "./infrastructure/Context/useContext.tsx";
 import { useState } from "react";
 
@@ -12,13 +13,16 @@ const queryClient = new QueryClient();
 
 function RootProvider() {
   const [connected, setConnected] = useState<boolean>(false);
+  const [qrcode, setQrcode] = useState<string>("");
   const [createLogin, setCreateLogin] = useState<boolean>(false);
 
   return (
     <QueryClientProvider client={queryClient}>
       <Connected.Provider value={{ connected, setConnected }}>
         <CreateLoginContext.Provider value={{ createLogin, setCreateLogin }}>
-          <App />
+          <CreatePasswordContext.Provider value={{ qrcode, setQrcode }}>
+            <App />
+          </CreatePasswordContext.Provider>
         </CreateLoginContext.Provider>
       </Connected.Provider>
     </QueryClientProvider>
